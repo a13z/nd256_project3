@@ -9,15 +9,26 @@ class TrieNode:
         self.children[char] = TrieNode()
 
     def suffixes(self, suffix=''):
-        ## Recursive function that collects the suffix for
-        ## all complete words below this point
+        """
+        Method that implements recursively a search of all words we have in Trie
+        from a node or prefix
+        Args:
+           suffix(string): string to pass or accumulate the suffixes until we find a word
 
+        Returns:
+           output_list(Array): array of all the words found from a node or prefix
+        """
+        # array to store all the words found
         output_list = []
+        # intermediate array to store words
         output = []
 
+        # base case if a node has no children we got to the end and return []
         if len(self.children) == 0:
             return []
 
+        # iterate and traverse the Trie through children dictionary and append the words
+        # to output intermediate array and then add output to the final output_list
         for char in self.children:
             output = self.children[char].suffixes(suffix+char)
             if self.children[char].is_word:
@@ -42,7 +53,14 @@ class Trie:
         node.is_word = True
 
     def find(self, prefix):
-        ## Find the Trie node that represents this prefix
+        """
+         Find the Trie node that represents this prefix
+
+        Args:
+           prefix(string): prefix to find in the Trie
+        Returns:
+           node(Node): if prefix is found in the Trie return the node. If not, return an empty node.
+        """
         node = self.root
 
         for char in prefix:
@@ -86,7 +104,7 @@ test_function(test_case, test_case_solution)
 
 # Test case 3
 test_case = 'trigg'
-test_case_solution = []
+test_case_solution = ['er']
 test_function(test_case, test_case_solution)
 
 # Test case 4

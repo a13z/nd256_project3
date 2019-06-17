@@ -1,7 +1,7 @@
 class Node(object):
     def __init__(self, value, index, parent, color):
         self.value = value
-        self.index = index
+        self.index = index # index or position of the value in the array
         self.left = None
         self.right = None
         self.parent = parent
@@ -11,6 +11,7 @@ class Node(object):
         print_color = 'R' if self.color == 'red' else 'B'
         return '%d%s' % (self.value, print_color)
 
+# Helper for finding the node's grandparent
 def grandparent(node):
     if node.parent == None:
         return None
@@ -34,18 +35,18 @@ class RedBlackTree(object):
     def __iter__(self):
         yield from self.root.__iter__()
 
+    # Insert a new node providing the value and index in the array and rebalance the node
     def insert(self, new_val, index):
         new_node = self.insert_helper(self.root, new_val, index)
         self.rebalance(new_node)
 
+    # Insert helper to find the right place to insert a node
     def insert_helper(self, current, new_val, index):
         if current.value < new_val:
             if current.right:
                 return self.insert_helper(current.right, new_val, index)
             else:
                 current.right = Node(new_val, index, current, 'red')
-                # print("current ", current)
-                # print("current right ", current.right)
                 return current.right
         else:
             if current.left:
@@ -54,6 +55,7 @@ class RedBlackTree(object):
                 current.left = Node(new_val, index, current, 'red')
                 return current.left
 
+    # rebalance a tree based on the Red Black Tree rules
     def rebalance(self, node):
         # Case 1
         if node.parent == None:
@@ -139,11 +141,17 @@ class RedBlackTree(object):
         node_moving_up.parent = p
 
     def search(self, node, value):
+        """
+        Search a value from a Red Black Tree node down and return the node if found.
+        If value is not found returns None
 
-        # print("Node value ", node.value, " Value to find ", value)
+        Args:
+           node(Node), value(int): node to search from, value to search
+        Returns:
+           node(Node): node if value is found. None if value is not in the tree.
+        """
 
         if node.value == value:
-            print("def search, Index found ", node.index)
             return node
 
         if node.value < value:
@@ -161,7 +169,7 @@ class RedBlackTree(object):
 
         return node_found
 
-
+# Helper to print a tree from a node
 def print_tree(node, level=0):
     print('   ' * (level - 1) + '+--' * (level > 0) + '%s' % node)
     if node.left:
@@ -180,11 +188,14 @@ def rotated_array_search(input_list, number):
        int: Index or -1
     """
 
+    # create red black tree and initialised with the first element of input_list
     red_black_tree = RedBlackTree(input_list[0])
 
+    # iterate through the rest of the input_list array and insert the elements in the tree
     for index, value in enumerate(input_list[1:], start=1):
         red_black_tree.insert(value, index)
 
+    # search the number in the tree
     node = red_black_tree.search(red_black_tree.root, number)
 
     if node is None:

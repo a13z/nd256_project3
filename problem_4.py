@@ -5,10 +5,14 @@ def sort_012(input_list):
     Args:
        input_list(list): List to be sorted
     """
+    # arrays to store the amount of 0 in input_list
     array0 = []
+    # arrays to store the amount of 1 in input_list
     array1 = []
+    # arrays to store the amount of 2 in input_list
     array2 = []
 
+    # iterate through the input_list array and append the elements based on their type
     for element in input_list:
         if element == 0:
             array0.append(element)

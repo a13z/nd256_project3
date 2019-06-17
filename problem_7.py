@@ -5,50 +5,73 @@ class RouteTrie:
         self.root = RouteTrieNode(handler)
 
     def insert(self, path, handler):
-        # Similar to our previous example you will want to recursively add nodes
-        # Make sure you assign the handler to only the leaf (deepest) node of this path
+        """
+        Method to insert a RouteTrieNode in the RouteTrie
 
+        Args:
+           path(string), handler(string): path to add and handler assigned to the path
+        """
         node = self.root
 
+        # if path doesn't start with '/' or handler is empty, we return None
         if path[0] != '' or handler == '':
             return None
 
+        # if path contains 2 elements and they are '' this means path is '/'
+        # so we return the root.handler because this has been already initialised
         if len(path) == 2 and path[0] == '' and path[1] == '':
             node.handler = handler
             return
 
+        # if path is valid, we iterate it and add it to the RouteTrie
         for single_path in path[1:]:
+            # we skip extra '/' in the path if they exist
             if single_path == '':
                 break
+            # we keep traversing the RouteTrie if we are finding part of the path
             if single_path in node.children:
                 node = node.children[single_path]
+            # if it doesn't exist we create a new Node and add the path
             else:
                 new_node = RouteTrieNode()
                 node.children[single_path] = new_node
                 node = new_node
-
+        # We finally add the handler to the path
         node.handler = handler
 
 
     def find(self, path):
-        # Starting at the root, navigate the Trie to find a match for this path
-        # Return the handler for a match, or None for no match
+        """
+        Method to find a path in a RouteTrie
+        Starting at the root, navigate the Trie to find a match for this path
+        Return the handler for a match, or None for no match
+
+        Args:
+           path(string): path to find in the RouteTrie
+        """
+
         node = self.root
 
+        # if path doesn't start with '/' we return None since it is a relative path
         if path[0] != '':
             return None
 
+        # This means that the path is '/' so we return the handler
         if len(path) == 2 and path[0] == '' and path[1] == '':
             return node.handler
 
+        # if path is valid, we iterate the path from the first '/'
         for single_path in path[1:]:
+            # we skip extra '/' in the path if they exist
             if single_path == '':
                 break
+            # we keep traversing the RouteTrie if we are finding part of the path
             if single_path in node.children:
                 node = node.children[single_path]
             else:
+                # this means that some part of the path is not found so we return None
                 return None
-
+        # Finally, the node is found so we return the handler
         return node.handler
 
 
@@ -61,41 +84,63 @@ class RouteTrieNode:
 # The Router class will wrap the Trie and handle
 class Router:
     def __init__(self, handler, not_found_handler=None):
+        """
+        Method to initialise Router class
 
-    # Create a new RouteTrie for holding our routes
-    # You could also add a handler for 404 page not found responses as well!
+        Args:
+           handler(string), not_found_handler(string): handler sets the handler for the root node and
+           not_found_handler sets the default route when a path is not found
+        """
+
         self.not_found_handler = not_found_handler
         self.trie = RouteTrie(handler)
 
     def add_handler(self, path, handler):
+        """
+        Method to add a handler for a path.
 
-    # Add a handler for a path
-    # You will need to split the path and pass the pass parts
-    # as a list to the RouteTrie
+        Args:
+           path(string), handler(string): add the handler to a path
+        """
 
         path_list = self.split_path(path)
         self.trie.insert(path_list, handler)
 
     def lookup(self, path):
+        """
+        Method to lookup a path in the RouteTrie.
+        If path is found we return the handler. If not found we return the default
+        not_found_handler which was initialised when we created the TrieRoute
 
-    # lookup path (by parts) and return the associated handler
-    # you can return None if it's not found or
-    # return the "not found" handler if you added one
-    # bonus points if a path works with and without a trailing slash
-    # e.g. /about and /about/ both return the /about handler
+        The path works with and without the trailing slash. It provides the handler
+        either way if exists
+
+        I think I covered all bonus points ;)
+
+        Args:
+           path(string): path to lookup in the RouteTrie
+        """
 
         path_list = self.split_path(path)
+
+        # find the path in the TrieRoute
         found = self.trie.find(path_list)
 
+        # if not found return the default not_found_handler
         if found is None:
             return self.not_found_handler
 
         return found
 
     def split_path(self, path):
-    # you need to split the path into parts for
-    # both the add_handler and lookup functions,
-    # so it should be placed in a function here
+        """
+        Method to split a path into parts using '/' as a separator
+
+        Args:
+            path(string): path to split into parts
+        Returns:
+            (list): list of elements created from splitting path with '/'
+        """
 
         return path.split('/')
 
@@ -115,7 +160,7 @@ def test_function(test_case, solution):
 # Here are some test cases and expected outputs you can use to test your implementation
 # Test case 1
 test_case = "/"
-test_case_solution = ''
+test_case_solution = 'root handler'
 test_function(test_case, test_case_solution)
 
 # Test case 2
