@@ -80,3 +80,6 @@ test_function(test_case)
 
 test_case = [[0, 0, 0, 0, 0], [0, 0]]
 test_function(test_case)
+
+test_case = [[], [0, 0]]
+test_function(test_case)
