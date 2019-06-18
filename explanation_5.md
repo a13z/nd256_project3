@@ -11,5 +11,7 @@ In the Trie class the only thing new is the find method which basically returns 
 given. If the prefix is not found I create an empty node in order to make the suffix method available and therefore
 return an empty array. This is done to cover the test case in which the prefix doesn't exist in the Trie.
 
-Runtime complexity to insert and search is O(1) since involves dictionaries to insert and find the letters.
-Space complexity is O(n*m) being n the number of letters and m the length of the words these letters create.
+Runtime complexity to insert and search is O(n) being n the length of the word we need to insert or search
+ because we need to traverse a Tree and therefore, its nodes, as many times as characters a word has.
+ 
+Space complexity is O(n*m) being n the number of characters and m the length of the words these characters create.
