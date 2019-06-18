@@ -49,4 +49,5 @@ Just FYI, I also fixed the rotation methods for the tree when the grandparent ne
  I sent feedback about this in the website but just letting you know.
  
  Runtime complexity for this problem is O(log n) for inserts and search as required by the problem.
- Space complexity is O(n)
+ In this problem we are using a Red Black Tree which will grow based on the size of the input list array
+ so the space complexity for the tree is O(n)

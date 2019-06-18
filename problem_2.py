@@ -188,6 +188,9 @@ def rotated_array_search(input_list, number):
        int: Index or -1
     """
 
+    if len(input_list) < 1:
+        return -1
+
     # create red black tree and initialised with the first element of input_list
     red_black_tree = RedBlackTree(input_list[0])
 
@@ -223,3 +226,5 @@ test_function([[6, 7, 8, 1, 2, 3, 4], 8])
 test_function([[6, 7, 8, 1, 2, 3, 4], 1])
 test_function([[6, 7, 8, 1, 2, 3, 4], 10])
 test_function([[6, 7, 8, 1, 2, 3, 4], -1])
+test_function([[1, 2, 3, 4, 5, 6, 7], 1])
+test_function([[], -1])
