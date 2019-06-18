@@ -8,6 +8,10 @@ def get_min_max(ints):
     Returns:
         (int,int): tuple with the min and max values
     """
+    # if ints is empty return (None, None)
+    if len(ints) == 0:
+        return (None, None)
+
     # variables to store min and max initialised to the first element of ints array.
     min = ints[0]
     max = min
@@ -31,8 +35,15 @@ print(l)
 
 print ("Pass" if ((0, 9) == get_min_max(l)) else "Fail")
 
-
-l = [i for i in range(4, 10)]  # a list containing 0 - 9
+l = [i for i in range(4, 10)]  # a list containing 4 - 9
 random.shuffle(l)
 print(l)
 print ("Pass" if ((4, 9) == get_min_max(l)) else "Fail")
+
+l = [0]  # a list with one element
+print(l)
+print ("Pass" if ((0, 0) == get_min_max(l)) else "Fail")
+
+l = []  # an empty list
+print(l)
+print ("Pass" if ((None, None) == get_min_max(l)) else "Fail")
