@@ -9,49 +9,47 @@ def sqrt(number):
        int: Floored Square Root
     """
     # Base cases so we could create a candidates array half size.
-    if number <= 0:
-        return 0
-    if number == 1:
-        return 1
+    if number < 0:
+        return None
 
-    # candidates is an array with numbers from 0 to number // 2
-    # they will be potential candidates to be the square root of number
-    candidates = [i for i in range(0, number//2)]
-
-    # Binary search required variables to shrink the array in half
-    midpoint = 0
+    # Lower and upper bounds to start binary search
     lower_bound = 0
-    upper_bound = len(candidates) - 1
+    upper_bound = number
+    # Variables to store the latest lower and upper bounds which we compare at the end to get the floored square root
+    latest_lobound = 0
+    latest_upbound = 0
 
-
-    # Traverse the candidates array in halves while the lower_bound is not higher than the upper_bound
-    # divide the array in half based if the candidate power of two is higher or lower than the number
-    # We discard the candidates which power of two are higher than the number and we iterate until
-    # bounds are crossed. That way we get the candidate closest to the square root of number
+    # We iterate while lower bound is not higher than upper bound
     while lower_bound <= upper_bound:
         midpoint = (upper_bound + lower_bound) // 2
-        candidate_power_two = candidates[midpoint] * candidates[midpoint]
-        if candidate_power_two == number:
-            return candidates[midpoint]
-        if candidate_power_two > number:
+        power_of_two = midpoint * midpoint
+        if power_of_two == number:
+            return midpoint
+        elif power_of_two > number:
+            latest_upbound = midpoint
             upper_bound = midpoint - 1
         else:
+            latest_lobound = midpoint
             lower_bound = midpoint + 1
 
-    return candidates[midpoint]
-
+    if latest_upbound * latest_upbound > number:
+        return latest_lobound
+    else:
+        return latest_upbound
 
 def test_function(test_case):
     number = test_case[0]
     solution = test_case[1]
+    print(sqrt(number), solution)
     if sqrt(number) == solution:
         print("Pass")
     else:
         print("Fail")
 
+test_function((30, 5))
 test_function((9, 3))
 test_function((0, 0))
 test_function((16, 4))
 test_function((1, 1))
 test_function((27, 5))
-test_function((-5, 0))
+test_function((-5, None))
