@@ -19,5 +19,6 @@ If the previous steps are passed then a traverse the Trie either if it is to ins
 handler, or if it is to find a path in which case I return the handler if exists. If it is not found, then it will 
 fallback to the not found attribute in the Router.
 
-The runtime complexity is O(1) since the path is stored in a dictionary and the lookup is constant.
+The runtime complexity is O(n) since the path is stored in a Trie we need to traverse until we get to the end of the path.
+
 The space complexity is O(m*n) being n the number of words which creates the route and m the length of these words.

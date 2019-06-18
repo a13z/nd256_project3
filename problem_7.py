@@ -14,7 +14,7 @@ class RouteTrie:
         node = self.root
 
         # if path doesn't start with '/' or handler is empty, we return None
-        if path[0] != '' or handler == '':
+        if path[0] != '' or handler == '' or len(path) < 2:
             return None
 
         # if path contains 2 elements and they are '' this means path is '/'
@@ -53,7 +53,7 @@ class RouteTrie:
         node = self.root
 
         # if path doesn't start with '/' we return None since it is a relative path
-        if path[0] != '':
+        if path[0] != '' or len(path) < 2:
             return None
 
         # This means that the path is '/' so we return the handler
@@ -191,4 +191,9 @@ test_function(test_case, test_case_solution)
 # Test case 5
 test_case = "/home/about/you"
 test_case_solution = 'about you handler'
+test_function(test_case, test_case_solution)
+
+# Test case 6
+test_case = ""
+test_case_solution = 'not found handler'
 test_function(test_case, test_case_solution)
